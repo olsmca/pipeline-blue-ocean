@@ -13,7 +13,7 @@ pipeline {
         input 'Quiere ejecutar test'
       }
     }
-    stage('Test Unitarios') {
+    stage('Test en Paralelo') {
       parallel {
         stage('Test Unitarios') {
           steps {
