@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-JenkinsApplication<jenkins>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.smith.jenkins.JenkinsApplication",
+            "projectName": "jenkins",
+            "args": ""
+        }
+    ]
+}

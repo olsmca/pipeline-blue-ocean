@@ -1,0 +1,8 @@
+# HTTP Server (Tomcat) Port
+server:
+  servlet:
+    contextPath: /jenkinsApp
+  port: 3333
+  error:
+    whitelabel:
+      enabled: true
