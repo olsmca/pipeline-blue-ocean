@@ -6,8 +6,8 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}", 'org.ajoberstar:gradle-git:0.8.0')
+    }
 }
 
 apply plugin: 'java'
@@ -40,6 +40,26 @@ test {
     jacoco {
         append = true
         destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+}
+
+import org.ajoberstar.grgit.*
+
+bootJar {
+    archiveName = "procesadorfactura.jar"
+    def repo = Grgit.open(project.file('.'))
+
+    manifest {
+        attributes("Built-By": System.getProperty("user.name"))
+        attributes("Specification-Title": "test jenkinsfile with blue ocean in springboot project",
+                "Specification-Version": version,
+                "Implementation-Title": project.name,
+                "Implementation-Version": 1,
+                "Implementation-Vendor": "Sura",
+                "Implementation-Description": project.description,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Git-Commit": repo.head().getAbbreviatedId(8),
+                "Git-Branch": repo.branch.getCurrent().getName())
     }
 }
 
