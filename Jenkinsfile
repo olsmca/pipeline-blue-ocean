@@ -6,6 +6,7 @@ pipeline {
         echo 'Compilando Proyecto'
         sh '''gradle clean
  gradle bootJar'''
+        mail(subject: 'failure', body: 'job failure', to: 'ocadena@sura.com.co', from: 'devops@com')
       }
     }
     stage('Test') {
