@@ -4,8 +4,10 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Compilando Proyecto'
-        sh '''gradle clean
- gradle bootJar'''
+        sh ''' gradle clean
+                gradle bootJar
+           '''
+        mail("ocadena@sura.com.co","Success","Great, Localhost Mail works");
         mail(subject: 'failure', body: 'job failure', to: 'ocadena@sura.com.co', from: 'devops@com')
       }
     }
