@@ -3,9 +3,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-		echo 'Compilando Proyecto'
+        echo 'Compilando Proyecto'
         sh '''gradle clean
-			  gradle bootJar'''
+ gradle bootJar'''
       }
     }
     stage('Test') {
