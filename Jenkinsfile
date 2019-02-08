@@ -5,18 +5,16 @@ pipeline {
       post {
         always {
           echo 'One way or another, I have finished'
-
         }
 
         success {
           echo 'Build generado con exito!'
-          slackSend(teamDomain: 'negocio-eps', channel: '#pipeline-as-code', token: 'kXvuJfAZwudfk6lHSxvduEaY', color: 'good', message: "The pipeline ${currentBuild.fullDisplayName} completed successfully.")
-
+          slackSend(teamDomain: "${params.Greeting}", channel: "${params.Greeting}", token: "${params.Greeting}", color: 'good', message: "${env.JOB_NAME}, ${currentBuild.fullDisplayName} completado con exito")
         }
 
         unstable {
           echo 'I am unstable :/'
-
+          slackSend(teamDomain: "${params.Greeting}", channel: "${params.Greeting}", token: "${params.Greeting}", color: 'warning', message: "${env.JOB_NAME}, ${currentBuild.fullDisplayName} inestable.")
         }
 
         failure {
@@ -64,7 +62,8 @@ pipeline {
     }
   }
   parameters {
-    string(name: 'ChannelSlack', defaultValue: '#pipeline-as-code', description: 'channel a utilizar')
-    string(name: 'ChannelSlack', defaultValue: '#pipeline-as-code', description: 'channel a utilizar')
+    string(name: 'teamDomain', defaultValue: 'negocio-eps', description: 'teamDomain a utilizar')
+    string(name: 'channel', defaultValue: '#pipeline-as-code', description: 'channel a utilizar')
+    string(name: 'token', defaultValue: 'kXvuJfAZwudfk6lHSxvduEaY', description: 'token a utilizar')
   }
 }
