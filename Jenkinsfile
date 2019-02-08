@@ -1,5 +1,12 @@
 pipeline {
   agent any
+
+  parameters{
+        string(name:'ChannelSlack', defaultValue: '#pipeline-as-code', description: "channel a utilizar")
+        string(name:'ChannelSlack', defaultValue: '#pipeline-as-code', description: "channel a utilizar")
+
+    }
+
   stages {
     stage('Build') {
       steps {
@@ -7,8 +14,29 @@ pipeline {
         sh ''' gradle clean
                 gradle bootJar
            '''
-        mail(subject: 'prueba mail', body: 'job failure', to: 'ocadena@sura.com.co', from: 'devops@com')
-        emailext(subject: 'correo', body: 'fallo', to: 'ocadena@sura.com.co')
+      }
+      post {
+        always {
+            echo 'One way or another, I have finished'
+            /*deleteDir() */
+        }
+        success {
+            echo 'Build generado con exito!'
+            slackSend teamDomain: 'negocio-eps',
+                      channel: '#pipeline-as-code',
+                      token: 'kXvuJfAZwudfk6lHSxvduEaY',
+                      color: 'good',
+                      message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
+        }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        failure {
+            echo 'I failed :('
+        }
+        changed {
+            echo 'Things were different before...'
+        }
       }
     }
     stage('Test') {
