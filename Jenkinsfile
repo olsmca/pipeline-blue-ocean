@@ -1,5 +1,12 @@
 pipeline {
   agent any
+  
+  parameters {
+    string(name: 'teamDomain', defaultValue: 'negocio-eps', description: 'teamDomain a utilizar')
+    string(name: 'channel', defaultValue: '#pipeline-as-code', description: 'channel a utilizar')
+    string(name: 'token', defaultValue: 'kXvuJfAZwudfk6lHSxvduEaY', description: 'token a utilizar')
+  }
+  
   stages {
     stage('Build') {
       post {
@@ -60,10 +67,5 @@ pipeline {
         echo 'Desplegando'
       }
     }
-  }
-  parameters {
-    string(name: 'teamDomain', defaultValue: 'negocio-eps', description: 'teamDomain a utilizar')
-    string(name: 'channel', defaultValue: '#pipeline-as-code', description: 'channel a utilizar')
-    string(name: 'token', defaultValue: 'kXvuJfAZwudfk6lHSxvduEaY', description: 'token a utilizar')
   }
 }
