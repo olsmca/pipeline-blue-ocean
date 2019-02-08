@@ -1,42 +1,40 @@
 pipeline {
   agent any
-
-  parameters{
-        string(name:'ChannelSlack', defaultValue: '#pipeline-as-code', description: "channel a utilizar")
-        string(name:'ChannelSlack', defaultValue: '#pipeline-as-code', description: "channel a utilizar")
-
-    }
-
   stages {
     stage('Build') {
+      post {
+        always {
+          echo 'One way or another, I have finished'
+
+        }
+
+        success {
+          echo 'Build generado con exito!'
+          slackSend(teamDomain: 'negocio-eps', channel: '#pipeline-as-code', token: 'kXvuJfAZwudfk6lHSxvduEaY', color: 'good', message: "The pipeline ${currentBuild.fullDisplayName} completed successfully.")
+
+        }
+
+        unstable {
+          echo 'I am unstable :/'
+
+        }
+
+        failure {
+          echo 'I failed :('
+
+        }
+
+        changed {
+          echo 'Things were different before...'
+
+        }
+
+      }
       steps {
-        echo 'Compilando Proyecto'
+        echo 'Compilando Proyecto BlueOcean'
         sh ''' gradle clean
                 gradle bootJar
            '''
-      }
-      post {
-        always {
-            echo 'One way or another, I have finished'
-            /*deleteDir() */
-        }
-        success {
-            echo 'Build generado con exito!'
-            slackSend teamDomain: 'negocio-eps',
-                      channel: '#pipeline-as-code',
-                      token: 'kXvuJfAZwudfk6lHSxvduEaY',
-                      color: 'good',
-                      message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
-        }
-        unstable {
-            echo 'I am unstable :/'
-        }
-        failure {
-            echo 'I failed :('
-        }
-        changed {
-            echo 'Things were different before...'
-        }
       }
     }
     stage('Test') {
@@ -64,5 +62,9 @@ pipeline {
         echo 'Desplegando'
       }
     }
+  }
+  parameters {
+    string(name: 'ChannelSlack', defaultValue: '#pipeline-as-code', description: 'channel a utilizar')
+    string(name: 'ChannelSlack', defaultValue: '#pipeline-as-code', description: 'channel a utilizar')
   }
 }
