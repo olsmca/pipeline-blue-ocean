@@ -16,12 +16,12 @@ pipeline {
 
         success {
           echo 'Build generado con exito!'
-          slackSend(teamDomain: "${params.Greeting}", channel: "${params.Greeting}", token: "${params.Greeting}", color: 'good', message: "${env.JOB_NAME}, ${currentBuild.fullDisplayName} completado con exito")
+          slackSend(teamDomain: "${params.teamDomain}", channel: "${params.channel}", token: "${params.token}", color: 'good', message: "${env.JOB_NAME}, ${currentBuild.fullDisplayName} completado con exito")
         }
 
         unstable {
           echo 'I am unstable :/'
-          slackSend(teamDomain: "${params.Greeting}", channel: "${params.Greeting}", token: "${params.Greeting}", color: 'warning', message: "${env.JOB_NAME}, ${currentBuild.fullDisplayName} inestable.")
+          slackSend(teamDomain: "${params.teamDomain}", channel: "${params.channel}", token: "${params.token}", color: 'warning', message: "${env.JOB_NAME}, ${currentBuild.fullDisplayName} inestable.")
         }
 
         failure {
